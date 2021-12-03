@@ -1,0 +1,12 @@
+[package]
+name = "advent-of-code-day-2-problem-2"
+version = "1.0.0"
+edition = "2021"
+license = "CC0-1.0"
+
+[[bin]]
+name = "aocd22"
+path = "src/main.rs"
+
+[dependencies]
+error-chain = "0.12"
