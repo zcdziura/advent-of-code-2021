@@ -1,4 +1,7 @@
-use std::{fs::File, io::{BufReader, BufRead}};
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 use error_chain::error_chain;
 
@@ -14,25 +17,27 @@ fn main() -> Result<()> {
 
     let mut gamma_rate = String::with_capacity(12);
     let mut epsilon_rate = String::with_capacity(12);
-    
+
     buffered
         .lines()
         .filter_map(|line| line.ok())
-        .map(|line| line
-            .chars()
-            .map(|c| if c == '1' {
-                (1_usize, 0_usize)
-            } else {
-                (0_usize, 1_usize)
-            })
-            .collect::<Vec<(usize, usize)>>()
-        )
-        .reduce(|acc, cur| acc
-            .into_iter()
-            .zip(cur.into_iter())
-            .map(|((acc_1, acc_0), (cur_1, cur_0))| (acc_1 + cur_1, acc_0 + cur_0))
-            .collect::<Vec<(usize, usize)>>()
-        )
+        .map(|line| {
+            line.chars()
+                .map(|c| {
+                    if c == '1' {
+                        (1_usize, 0_usize)
+                    } else {
+                        (0_usize, 1_usize)
+                    }
+                })
+                .collect::<Vec<(usize, usize)>>()
+        })
+        .reduce(|acc, cur| {
+            acc.into_iter()
+                .zip(cur.into_iter())
+                .map(|((acc_1, acc_0), (cur_1, cur_0))| (acc_1 + cur_1, acc_0 + cur_0))
+                .collect::<Vec<(usize, usize)>>()
+        })
         .unwrap()
         .into_iter()
         .for_each(|(one, zero)| {
